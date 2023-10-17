@@ -58,4 +58,28 @@ public class Book {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", isbn='" + isbn + '\'' +
+                ", authors=" + authors + '}';  
+    }
+
+    @Override
+    public boolean equals(Object operand) {
+        if (this == operand) return true;
+        if (!(operand instanceof Book)) return false;
+
+        Book book = (Book) operand;
+
+        return getId() != null ? getId().equals(book.getId()) : book.getId() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() != null ? getId().hashCode() : 0;
+    }
 }

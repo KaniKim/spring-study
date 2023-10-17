@@ -51,4 +51,26 @@ public class Author {
         this.lastName = lastName;
     }
     
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '}';
+    }
+
+    @Override
+    public boolean equals(Object operand) {
+        if (this == operand) return true;
+        if (!(operand instanceof Author)) return false;
+
+        Author author = (Author) operand;
+
+        return getId() != null ? getId().equals(author.getId()) : author.getId() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return getId() != null ? getId().hashCode() : 0;
+    }
 }
