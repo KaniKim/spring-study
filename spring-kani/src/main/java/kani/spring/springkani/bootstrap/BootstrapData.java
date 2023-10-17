@@ -5,18 +5,22 @@ import org.springframework.stereotype.Component;
 
 import kani.spring.springkani.domain.Author;
 import kani.spring.springkani.domain.Book;
+import kani.spring.springkani.domain.Publisher;
 import kani.spring.springkani.repositories.AuthorRepository;
 import kani.spring.springkani.repositories.BookRepository;
+import kani.spring.springkani.repositories.PublisherRepository;
 
 @Component
 public class BootstrapData implements CommandLineRunner{
 
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
-    
-    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+    private final PublisherRepository publisherRepository;
+
+    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherRepository) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.publisherRepository = publisherRepository;
     }
 
     @Override
@@ -49,9 +53,20 @@ public class BootstrapData implements CommandLineRunner{
         authorRepository.save(ericSaved);
         authorRepository.save(rodSaved);
 
+        Publisher publisher = new Publisher();
+        publisher.setPublisherName("My Publisher");
+        publisher.setAddress("123 Main");
+        Publisher savedPublisher = publisherRepository.save(publisher);
+
+        DDDSaved.setPublisher(savedPublisher);
+        noEJB.setPublisher(savedPublisher);
+        bookRepository.save(DDDSaved);
+        bookRepository.save(noEJBSaved);
+
         System.out.println("InBootstrap");
         System.out.println("Author Count: " + authorRepository.count());
         System.out.println("Book Count: " + bookRepository.count());
+        System.out.println("Publisher Count: " + publisherRepository.count());
     }
     
 }
