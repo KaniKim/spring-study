@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface BeerService {
     Beer saveNewBeer(Beer beer);
+    void patchBeerById(UUID beerId, Beer beer);
     void updateBeerById(UUID beerId, Beer beer);
     void deleteById(UUID beerId);
     List<Beer> listBeers();
