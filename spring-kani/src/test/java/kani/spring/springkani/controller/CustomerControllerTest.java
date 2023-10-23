@@ -12,26 +12,27 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import kani.spring.springkani.model.Beer;
-import kani.spring.springkani.services.BeerService;
-import kani.spring.springkani.services.BeerServiceImpl;
+import kani.spring.springkani.model.Customer;
+import kani.spring.springkani.services.CustomerService;
+import kani.spring.springkani.services.CustomerServiceImpl;
 
-@WebMvcTest(BeerController.class)
-class BeerControllerTest {
-    
+
+@WebMvcTest(CustomerController.class)
+public class CustomerControllerTest {
+
     @Autowired
     MockMvc mockMvc;
-
-    @MockBean
-    BeerService beerService;
-
-    BeerServiceImpl beerServiceImpl = new BeerServiceImpl();
     
-    @Test
-    void testListBeer() throws Exception {
-        given(beerService.listBeers()).willReturn(beerServiceImpl.listBeers());
+    @MockBean
+    CustomerService customerService;
 
-        mockMvc.perform(get("/api/v1/beer")
+    CustomerServiceImpl customerServiceImpl = new CustomerServiceImpl();
+
+    @Test
+    void testListCustomer() throws Exception {
+        given(customerService.listCustomers()).willReturn(customerServiceImpl.listCustomers());
+
+        mockMvc.perform(get("/api/v1/customer")
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -39,17 +40,16 @@ class BeerControllerTest {
     }
 
     @Test
-    void testBeerById() throws Exception {
-        Beer testBeer = beerServiceImpl.listBeers().get(0);
+    void testCustomerById() throws Exception {
+        Customer testCustomer = customerServiceImpl.listCustomers().get(0);
 
-        given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
+        given(customerService.getCustomerById(testCustomer.getId())).willReturn(testCustomer);
 
-        mockMvc.perform(get("/api/v1/beer/" + testBeer.getId())
+        mockMvc.perform(get("/api/v1/customer/" + testCustomer.getId())
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id", is(testBeer.getId().toString())))
-            .andExpect(jsonPath("$.beerName", is(testBeer.getBeerName())));
-        
+            .andExpect(jsonPath("$.id", is(testCustomer.getId().toString())))
+            .andExpect(jsonPath("$.customerName", is(testCustomer.getCustomerName())));
     }
 }
