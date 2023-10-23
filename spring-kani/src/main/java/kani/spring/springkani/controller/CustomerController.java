@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import kani.spring.springkani.model.Beer;
 import kani.spring.springkani.model.Customer;
 import kani.spring.springkani.services.CustomerService;
 import lombok.AllArgsConstructor;
