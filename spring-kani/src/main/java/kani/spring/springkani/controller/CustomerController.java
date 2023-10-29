@@ -23,7 +23,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @RestController
 public class CustomerController {
-    public static final String CUSTOMER_PATH = "/api/v1/beer";
+    public static final String CUSTOMER_PATH = "/api/v1/customer";
     public static final String CUSTOMER_PATH_ID = CUSTOMER_PATH + "/{customerId}";
 
     private final CustomerService customerService;
@@ -54,7 +54,7 @@ public class CustomerController {
         Customer savedNewCustomer = customerService.saveNewCustomer(customer);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "/api/v1/beer/" + savedNewCustomer.getId().toString());
+        headers.add("Location", CUSTOMER_PATH + "/" + savedNewCustomer.getId().toString());
 
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
