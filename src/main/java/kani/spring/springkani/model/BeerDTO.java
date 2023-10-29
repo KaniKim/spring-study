@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 public class BeerDTO {
     private UUID id;
     private Integer version;
-    private String beerName;
+    private String name;
     private BeerStyle beerStyle;
     private String upc;
     private Integer quantityOnHand;

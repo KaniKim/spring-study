@@ -29,7 +29,7 @@ public class BeerServiceImpl implements BeerService{
         BeerDTO beer1 = BeerDTO.builder()
                 .id(UUID.randomUUID())
                 .version(1)
-                .beerName("Galaxy Cat")
+                .name("Galaxy Cat")
                 .beerStyle(BeerStyle.PALE_ALE)
                 .upc("12356")
                 .price(new BigDecimal("12.99"))
@@ -41,7 +41,7 @@ public class BeerServiceImpl implements BeerService{
         BeerDTO beer2 = BeerDTO.builder()
                 .id(UUID.randomUUID())
                 .version(1)
-                .beerName("Crank")
+                .name("Crank")
                 .beerStyle(BeerStyle.PALE_ALE)
                 .upc("12356222")
                 .price(new BigDecimal("11.99"))
@@ -53,7 +53,7 @@ public class BeerServiceImpl implements BeerService{
         BeerDTO beer3 = BeerDTO.builder()
                 .id(UUID.randomUUID())
                 .version(1)
-                .beerName("Sunshine City")
+                .name("Sunshine City")
                 .beerStyle(BeerStyle.IPA)
                 .upc("12356")
                 .price(new BigDecimal("13.99"))
@@ -71,7 +71,7 @@ public class BeerServiceImpl implements BeerService{
     public void updateBeerById(UUID beerId, BeerDTO beer) {
         BeerDTO existing = beerMap.get(beerId);
         
-        existing.setBeerName(beer.getBeerName());
+        existing.setName(beer.getName());
         existing.setPrice(beer.getPrice());
         existing.setUpc(beer.getUpc());
         existing.setQuantityOnHand(beer.getQuantityOnHand());
@@ -89,8 +89,8 @@ public class BeerServiceImpl implements BeerService{
     public void patchBeerById(UUID beerId, BeerDTO beer) {
         BeerDTO existing = beerMap.get(beerId);
 
-        if (StringUtils.hasText(beer.getBeerName())) {
-            existing.setBeerName(beer.getBeerName());
+        if (StringUtils.hasText(beer.getName())) {
+            existing.setName(beer.getName());
         }
 
         if (beer.getBeerStyle() != null) {
@@ -116,7 +116,7 @@ public class BeerServiceImpl implements BeerService{
                 .id(UUID.randomUUID())
                 .createdDate(LocalDateTime.now())
                 .updateDate(LocalDateTime.now())
-                .beerName(beer.getBeerName())
+                .name(beer.getName())
                 .quantityOnHand(beer.getQuantityOnHand())
                 .beerStyle(beer.getBeerStyle())
                 .upc(beer.getUpc())

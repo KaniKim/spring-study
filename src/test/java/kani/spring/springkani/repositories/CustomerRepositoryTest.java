@@ -18,10 +18,10 @@ class CustomerRepositoryTest {
     void testSaveCustomer() {
         Customer customer = customerRepository.save(
                                             Customer.builder()
-                                            .customerName("New Name")
+                                            .name("New Name")
                                             .build());
         
         assertThat(customer.getId()).isNotNull();
-        assertThat(customer.getCustomerName()).isEqualTo("New Name");
+        assertThat(customer.getName()).isEqualTo("New Name");
     }
 }

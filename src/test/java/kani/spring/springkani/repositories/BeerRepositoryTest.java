@@ -17,7 +17,7 @@ class BeerRepositoryTest {
     @Test
     void testSaveBeer() {
         Beer savedBeer = beerRepository.save(Beer.builder()
-                                    .beerName("My beer")
+                                    .name("My beer")
                                     .build());
         assertThat(savedBeer).isNotNull();
         assertThat(savedBeer.getId()).isNotNull();

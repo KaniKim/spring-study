@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import kani.spring.springkani.entities.Beer;
 import kani.spring.springkani.model.BeerDTO;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface BeerMapper {
     
     Beer beerDtoToBeer(BeerDTO beer);

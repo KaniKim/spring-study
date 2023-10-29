@@ -70,7 +70,7 @@ public class CustomerControllerTest {
         verify(customerService).patchCustomerById(uuidArgumentCaptor.capture(), customerArgumentCaptor.capture());
 
         assertThat(customer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
-        assertThat(customerMap.get("customerName")).isEqualTo(customerArgumentCaptor.getValue().getCustomerName());
+        assertThat(customerMap.get("customerName")).isEqualTo(customerArgumentCaptor.getValue().getName());
     }
 
     @Test
@@ -103,8 +103,6 @@ public class CustomerControllerTest {
     @Test
     void testCreateNewCustomer() throws Exception {
         CustomerDTO customer = customerServiceImpl.listCustomers().get(0);
-        customer.setVersion(null);
-        customer.setId(null);
 
         given(customerService.saveNewCustomer(any(CustomerDTO.class))).willReturn(customerServiceImpl.listCustomers().get(1));
 
@@ -139,6 +137,6 @@ public class CustomerControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id", is(testCustomer.getId().toString())))
-            .andExpect(jsonPath("$.customerName", is(testCustomer.getCustomerName())));
+            .andExpect(jsonPath("$.customerName", is(testCustomer.getName())));
     }
 }

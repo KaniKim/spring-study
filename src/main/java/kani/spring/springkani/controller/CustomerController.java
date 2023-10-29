@@ -17,13 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import kani.spring.springkani.controller.exception.NotFoundException;
 import kani.spring.springkani.model.CustomerDTO;
 import kani.spring.springkani.services.CustomerService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
-import java.util.Optional;
 
-@AllArgsConstructor
 @RestController
+@RequiredArgsConstructor
 public class CustomerController {
     public static final String CUSTOMER_PATH = "/api/v1/customer";
     public static final String CUSTOMER_PATH_ID = CUSTOMER_PATH + "/{customerId}";

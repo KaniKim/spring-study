@@ -16,14 +16,12 @@ import kani.spring.springkani.controller.exception.NotFoundException;
 import kani.spring.springkani.model.BeerDTO;
 import kani.spring.springkani.services.BeerService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.UUID;
 
-@Slf4j
-@RequiredArgsConstructor
 @RestController
+@RequiredArgsConstructor
 public class BeerController {
     public static final String BEER_PATH = "/api/v1/beer";
     public static final String BEER_PATH_ID = BEER_PATH + "/{beerId}";
@@ -70,7 +68,6 @@ public class BeerController {
     
     @GetMapping(BEER_PATH_ID)
     public BeerDTO getBeerById(@PathVariable("beerId") UUID beerId) {
-        log.debug("Get Beer by ID - in controller - 1234");
         
         return beerService.getBeerById(beerId).orElseThrow(NotFoundException::new);
     }

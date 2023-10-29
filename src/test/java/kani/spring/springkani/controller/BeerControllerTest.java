@@ -70,7 +70,7 @@ class BeerControllerTest {
             verify(beerService).patchBeerById(uuidArgumentCaptor.capture(), beerArgumentCaptor.capture());
 
             assertThat(beer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
-            assertThat(beerMap.get("beerName")).isEqualTo(beerArgumentCaptor.getValue().getBeerName());
+            assertThat(beerMap.get("beerName")).isEqualTo(beerArgumentCaptor.getValue().getName());
     }
 
     @Test
@@ -103,8 +103,6 @@ class BeerControllerTest {
     @Test
     void testCreateNewBeer() throws Exception {
         BeerDTO beer = beerServiceImpl.listBeers().get(0);
-        beer.setVersion(null);
-        beer.setId(null);
 
         given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers().get(1));
         
@@ -146,7 +144,7 @@ class BeerControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id", is(testBeer.getId().toString())))
-            .andExpect(jsonPath("$.beerName", is(testBeer.getBeerName())));
+            .andExpect(jsonPath("$.beerName", is(testBeer.getName())));
         
     }
 }
