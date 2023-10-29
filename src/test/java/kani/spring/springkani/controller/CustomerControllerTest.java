@@ -59,7 +59,7 @@ public class CustomerControllerTest {
         CustomerDTO customer = customerServiceImpl.listCustomers().get(0);
 
         Map<String, Object> customerMap = new HashMap<>();
-        customerMap.put("customerName", "New Name");
+        customerMap.put("name", "New Name");
 
         mockMvc.perform(patch(CustomerController.CUSTOMER_PATH + "/" + customer.getId())
             .contentType(MediaType.APPLICATION_JSON)
@@ -70,12 +70,14 @@ public class CustomerControllerTest {
         verify(customerService).patchCustomerById(uuidArgumentCaptor.capture(), customerArgumentCaptor.capture());
 
         assertThat(customer.getId()).isEqualTo(uuidArgumentCaptor.getValue());
-        assertThat(customerMap.get("customerName")).isEqualTo(customerArgumentCaptor.getValue().getName());
+        assertThat(customerMap.get("name")).isEqualTo(customerArgumentCaptor.getValue().getName());
     }
 
     @Test
     void testDeleteCustomer() throws Exception {
         CustomerDTO customer = customerServiceImpl.listCustomers().get(0);
+
+        given(customerService.deleteById(any())).willReturn(true);
 
         mockMvc.perform(delete(CustomerController.CUSTOMER_PATH + "/" + customer.getId())
             .accept(MediaType.APPLICATION_JSON))
@@ -90,6 +92,8 @@ public class CustomerControllerTest {
     @Test
     void testUpdateCustomer() throws Exception {
         CustomerDTO customer = customerServiceImpl.listCustomers().get(0);
+
+        given(customerService.updateCustomerById(any(), any())).willReturn(Optional.of(customer));
 
         mockMvc.perform(put(CustomerController.CUSTOMER_PATH + "/" + customer.getId())
                 .accept(MediaType.APPLICATION_JSON)
@@ -137,6 +141,6 @@ public class CustomerControllerTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.id", is(testCustomer.getId().toString())))
-            .andExpect(jsonPath("$.customerName", is(testCustomer.getName())));
+            .andExpect(jsonPath("$.name", is(testCustomer.getName())));
     }
 }

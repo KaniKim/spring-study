@@ -8,8 +8,8 @@ import kani.spring.springkani.model.CustomerDTO;
 
 public interface CustomerService {
     CustomerDTO saveNewCustomer(CustomerDTO customer);
-    void updateCustomerById(UUID customerId, CustomerDTO customer);
-    void deleteById(UUID customerId);
+    Optional<CustomerDTO> updateCustomerById(UUID customerId, CustomerDTO customer);
+    boolean deleteById(UUID customerId);
     void patchCustomerById(UUID customerId, CustomerDTO customer);
     List<CustomerDTO> listCustomers();
     Optional<CustomerDTO> getCustomerById(UUID id);
