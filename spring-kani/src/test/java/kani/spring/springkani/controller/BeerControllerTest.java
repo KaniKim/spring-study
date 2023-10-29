@@ -23,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.UUID;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Optional;
 
 import kani.spring.springkani.model.Beer;
 import kani.spring.springkani.services.BeerService;
@@ -127,10 +128,18 @@ class BeerControllerTest {
     }
 
     @Test
+    void getBeerByIdNotFound() throws Exception{
+        given(beerService.getBeerById(any(UUID.class))).willReturn(Optional.empty());
+
+        mockMvc.perform(get(BeerController.BEER_PATH_ID, UUID.randomUUID()))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
     void testBeerById() throws Exception {
         Beer testBeer = beerServiceImpl.listBeers().get(0);
 
-        given(beerService.getBeerById(testBeer.getId())).willReturn(testBeer);
+        given(beerService.getBeerById(testBeer.getId())).willReturn(Optional.of(testBeer));
 
         mockMvc.perform(get(BeerController.BEER_PATH + "/" + testBeer.getId())
             .accept(MediaType.APPLICATION_JSON))

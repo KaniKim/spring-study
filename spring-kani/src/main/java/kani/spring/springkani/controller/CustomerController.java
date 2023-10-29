@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import kani.spring.springkani.controller.exception.NotFoundException;
 import kani.spring.springkani.model.Customer;
 import kani.spring.springkani.services.CustomerService;
 import lombok.AllArgsConstructor;
 
 import java.util.UUID;
+import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -66,6 +68,6 @@ public class CustomerController {
 
     @GetMapping(CUSTOMER_PATH_ID)
     public Customer getCustomerById(@PathVariable("customerId") UUID customerId) {
-        return customerService.getCustomerById(customerId);
+        return customerService.getCustomerById(customerId).orElseThrow(NotFoundException::new);
     }
 }

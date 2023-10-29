@@ -4,6 +4,7 @@ import kani.spring.springkani.model.Beer;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 
 public interface BeerService {
     Beer saveNewBeer(Beer beer);
@@ -11,5 +12,5 @@ public interface BeerService {
     void updateBeerById(UUID beerId, Beer beer);
     void deleteById(UUID beerId);
     List<Beer> listBeers();
-    Beer getBeerById(UUID id);
+    Optional<Beer> getBeerById(UUID id);
 }

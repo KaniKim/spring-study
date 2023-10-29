@@ -27,6 +27,7 @@ import kani.spring.springkani.services.CustomerServiceImpl;
 import java.util.UUID;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Optional;
 
 @WebMvcTest(CustomerController.class)
 public class CustomerControllerTest {
@@ -131,7 +132,7 @@ public class CustomerControllerTest {
     void testCustomerById() throws Exception {
         Customer testCustomer = customerServiceImpl.listCustomers().get(0);
 
-        given(customerService.getCustomerById(testCustomer.getId())).willReturn(testCustomer);
+        given(customerService.getCustomerById(testCustomer.getId())).willReturn(Optional.of(testCustomer));
 
         mockMvc.perform(get(CustomerController.CUSTOMER_PATH + "/" + testCustomer.getId())
             .accept(MediaType.APPLICATION_JSON))
