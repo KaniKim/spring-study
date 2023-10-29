@@ -62,3 +62,5 @@ build/
 build
 
 application-db.properties
+
+!gradle/wrapper/gradle-wrapper.jar
