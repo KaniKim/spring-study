@@ -23,8 +23,8 @@ jobs:
         run: ./gradlew -x test
       - name: Test with Gradle
         run: ./gradlew --info test
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v4
+        if: success() || failure()
         with:
-          junit_files: '**/build/test-results/test/TEST-*.xml'
+          report_paths: '**/build/test-results/test/TEST-*.xml'
