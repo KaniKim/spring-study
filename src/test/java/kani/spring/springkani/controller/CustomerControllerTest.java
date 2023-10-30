@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -52,6 +53,38 @@ public class CustomerControllerTest {
     @BeforeEach
     void setUp() {
         customerServiceImpl = new CustomerServiceImpl();
+    }
+
+    @Test
+    void testUpdateBeerBlankName() throws Exception{
+        CustomerDTO customerDto = customerServiceImpl.listCustomers().get(0);
+        customerDto.setName("");
+
+        given(customerService.updateCustomerById(any(), any())).willReturn(Optional.of(customerDto));
+
+        mockMvc.perform(put(CustomerController.CUSTOMER_PATH+ "/" + customerDto.getId())
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(customerDto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.length()", is(1)));
+    }
+
+    @Test
+    void testCreateBeerNullName() throws Exception {
+        CustomerDTO customerDto = CustomerDTO.builder().build();
+
+        given(customerService.saveNewCustomer(any(CustomerDTO.class))).willReturn(customerServiceImpl.listCustomers().get(1));
+
+        MvcResult mvcResult = mockMvc.perform(post(CustomerController.CUSTOMER_PATH)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(customerDto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.length()", is(2)))
+                .andReturn();
+
+        System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
     @Test

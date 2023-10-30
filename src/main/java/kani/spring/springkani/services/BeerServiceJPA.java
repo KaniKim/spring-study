@@ -2,6 +2,7 @@ package kani.spring.springkani.services;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import kani.spring.springkani.mappers.BeerMapper;
 import kani.spring.springkani.model.BeerDTO;
@@ -50,8 +51,41 @@ public class BeerServiceJPA implements BeerService{
     }
 
     @Override
-    public void patchBeerById(UUID beerId, BeerDTO beer) {
-        
+    public Optional<BeerDTO> patchBeerById(UUID beerId, BeerDTO beer) {
+        AtomicReference<Optional<BeerDTO>> atomicReference = new AtomicReference<>();
+
+        beerRepository.findById(beerId).ifPresentOrElse(foundBeer -> {
+            if(StringUtils.hasText(beer.getName())) {
+                foundBeer.setName(beer.getName());
+            }
+
+            if(beer.getBeerStyle() != null) {
+                foundBeer.setBeerStyle(beer.getBeerStyle());
+            }
+
+            if(StringUtils.hasText(beer.getUpc())) {
+                foundBeer.setUpc(beer.getUpc());
+            }
+
+            if(beer.getPrice() != null) {
+                foundBeer.setPrice(beer.getPrice());
+            }
+
+            if(beer.getQuantityOnHand() != null) {
+                foundBeer.setQuantityOnHand(beer.getQuantityOnHand());
+            }
+
+            atomicReference.set(Optional.of(
+                beerMapper.beerToBeerDTO(
+                    beerRepository.save(foundBeer)
+                    )
+                )
+            );
+        }, () -> {
+            atomicReference.set(Optional.empty());
+        });
+
+        return atomicReference.get();
     }
 
     @Override
