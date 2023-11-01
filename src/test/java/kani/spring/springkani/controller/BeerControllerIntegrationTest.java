@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.core.Is.is;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,35 @@ class BeerControllerIntegrationTest {
 
     @Autowired
     BeerMapper beerMapper;
+
+    @Autowired
+    WebApplicationContext wac;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    MockMvc mockMvc;
+
+    @BeforeEach
+    void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
+
+    @Test
+    void testPatchBeerBadName() throws Exception {
+        Beer beer = beerRepository.findAll().get(0);
+
+        Map<String, Object> beerMap = new HashMap<>();
+        beerMap.put("name", "New Name 1234512345123451234512345123451234512345123451234512345123451234512345123451234512345");
+
+        mockMvc.perform(patch(BeerController.BEER_PATH + "/" + beer.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(beerMap)))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.length()", is(1)))
+            .andReturn();
+        }
 
     @Test
     void deleteByIdNotFound() {
